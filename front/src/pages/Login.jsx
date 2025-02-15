@@ -3,16 +3,15 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from '@/components/ui/button'
-import { z, ZodCatch } from 'zod'
+import { z } from 'zod'
 import axios from 'axios'
-import { error } from 'console'
+
 
 const Login = () => {
     const [username , setUsername] = useState("")
@@ -30,8 +29,8 @@ const Login = () => {
             axios.post("http://localhost:3000/login",{
                 
                     "username" : name.data,
+                    "Email" : mail.data,
                     "password" : pw.data,
-                    "Email" : mail.data
                 }
             ).catch((error)=>{
                 console.log(error);
@@ -53,39 +52,58 @@ const Login = () => {
 
     }
   return (
-    <div className="flex items-center justify-center min-h-screen" >
-        <Card className="w-[350px]">
-            <CardHeader>
-            <CardTitle>Login</CardTitle>
-            <CardDescription>Enter your details</CardDescription>
-            </CardHeader>
-            <CardContent>
-        <form onSubmit={onSubmitHandler}>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
-              <Input 
-                id="name" 
-                placeholder="Enter Your Full Name here" 
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }} 
-              />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="E-mail">E-mail id</Label>
-              <Input id="name" placeholder="abc@gmail.com" onChange = {(e) => setEmail(e.target.value)}/>
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="Password">Password</Label>
-              <Input id="name" placeholder="*****" onChange = {(e) => setPassword(e.target.value)}/>
-            </div>
-            <Button type="submit">Submit</Button>
+    <div className='min-h-screen bg-gradient-to-b from-slate-900 to-navy-950 flex flex-col justify-center items-center'>
+  <h1 className="text-5xl font-semibold text-slate-100 mb-6 tracking-wide">
+    EDC Management Portal
+  </h1>
+
+  <Card className="w-[400px] shadow-lg">
+    <CardHeader className="text-center">
+      <CardTitle className="text-3xl text-slate-800">Login</CardTitle>
+      <CardDescription className="text-slate-600">
+        Enter your credentials
+      </CardDescription>
+    </CardHeader>
+    <CardContent>
+      <form onSubmit={onSubmitHandler}>
+        <div className="grid w-full items-center gap-4">
+          <div className="flex flex-col space-y-2">
+            <Label htmlFor="name" className="text-lg text-slate-700">Name</Label>
+            <Input 
+              id="name" 
+              placeholder="Enter Your Full Name here" 
+              onChange={(e) => setUsername(e.target.value)} 
+              className="text-base"
+            />
           </div>
-        </form>
-      </CardContent>
-        </Card>
-    </div>
+          <div className="flex flex-col space-y-2">
+            <Label htmlFor="E-mail" className="text-lg text-slate-700">E-mail</Label>
+            <Input 
+              id="email" 
+              placeholder="abc@gmail.com" 
+              onChange={(e) => setEmail(e.target.value)} 
+              className="text-base"
+            />
+          </div>
+          <div className="flex flex-col space-y-2">
+            <Label htmlFor="Password" className="text-lg text-slate-700">Password</Label>
+            <Input 
+              id="password" 
+              placeholder="*****" 
+              type="password"
+              onChange={(e) => setPassword(e.target.value)} 
+              className="text-base"
+            />
+          </div>
+          <Button type="submit" className="w-full mt-4 hover:bg-blue-700 text-white">
+            Submit
+          </Button>
+        </div>
+      </form>
+    </CardContent>
+  </Card>
+</div>
+    
 
   )
 }
