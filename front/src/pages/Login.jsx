@@ -33,7 +33,7 @@ const Login = () => {
                     "password" : pw.data,
                 }
             ).catch((error)=>{
-                console.log(error);
+                alert(error.response.data.error);
             })
             console.log(`username: ${name.data} , password: ${pw.data} email: ${mail.data}`)
         }else{

@@ -1,10 +1,12 @@
-const UserSchema = require("/Users/nalinkhanna/Society-management-portal/server/models/UserSchema.js") ;
+
 const mongoose = require("mongoose");
+const bcrypt = require('bcrypt')
 
-const User = mongoose.model('User',UserSchema);
-
-const addUser = ()=>{
-    const user1 = new User({name:"user1",email:"nalinkhanna17@gmail.com",Password:"123456"})
+const {UserSchema , User} = require('../models/UserSchema')
+const password = "123456"
+const addUser = async ()=>{
+    const hashedpassword = await bcrypt.hash(password,10)
+    const user1 = new User({name:"user2",email:"anil71khanna@gmail.com",Password:hashedpassword})
     user1.save()
     .then(()=>{console.log("user added")})
 }
