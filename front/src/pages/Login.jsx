@@ -11,30 +11,47 @@ import { Label } from "@/components/ui/label"
 import { Button } from '@/components/ui/button'
 import { z } from 'zod'
 import axios from 'axios'
+import { Navigate, NavLink, useNavigate } from 'react-router-dom'
 
 
 const Login = () => {
+    const navigate = useNavigate();
     const [username , setUsername] = useState("")
     const [email , setEmail] = useState("")
     const [password , setPassword] = useState("")
     const usernameSchema = z.string().min(3, "Username must be at least 3 characters long.")
     const emailSchema = z.string().email("Invalid email format.")
     const pwSchema = z.string().min(5, "Password must be at least 5 characters long.")
-    const onSubmitHandler=(e)=>{
+    const onSubmitHandler= async (e)=>{
         e.preventDefault();
         const name = usernameSchema.safeParse(username);
         const pw = pwSchema.safeParse(password);
         const mail = emailSchema.safeParse(email);
         if(name.success && pw.success && mail.success){
-            axios.post("http://localhost:3000/login",{
-                
-                    "username" : name.data,
-                    "Email" : mail.data,
-                    "password" : pw.data,
-                }
-            ).catch((error)=>{
-                alert(error.response.data.error);
-            })
+          try{
+            const response = await axios.post("http://localhost:3000/login",{
+              "username" : name.data,
+              "Email" : mail.data,
+              "password" : pw.data,
+             }
+           )
+           if(response.data.success){
+            localStorage.setItem("token",response.data.token)
+            if(response.data.user.role == "admin"){
+              console.log("navigating to admin dashboard")
+              navigate('/Admin-dashboard')
+            }
+            else{
+              console.log("navigating to user dashboard")
+              navigate('/User-dashboard')
+            }
+          }
+          }
+            catch(error){
+              console.log(error)
+              alert("wrong credentials");
+            }
+            
             console.log(`username: ${name.data} , password: ${pw.data} email: ${mail.data}`)
         }else{
             let errorMessage = "";

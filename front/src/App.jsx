@@ -4,6 +4,8 @@ import viteLogo from '/vite.svg'
 
 import { Route, Routes } from 'react-router-dom'
 import Login from './pages/Login'
+import AdminDashboard from './pages/AdminDashboard'
+import UserDashboard from './pages/UserDashboard'
 function App() {
   const [count, setCount] = useState(0)
 
@@ -11,9 +13,10 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Login/>} />
+        <Route path='/Admin-dashboard' element={<AdminDashboard />} />
+        <Route path='/User-dashboard' element={<UserDashboard /> } />
       </Routes>
     </>
   )
 }
-
 export default App

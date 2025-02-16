@@ -18,7 +18,7 @@ const login = async (req,res)=>{
         return res.status(200).json({ 
             success: true, 
             token, 
-            user: { _id: user._id, name: user.name } 
+            user: { _id: user._id, name: user.name , role : user.role} 
         });
     }
     catch(err){

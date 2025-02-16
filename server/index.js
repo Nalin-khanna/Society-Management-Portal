@@ -5,7 +5,6 @@ const cors = require('cors');
 const connect = require('./db/ connection');
 const login = require('./Routes/Login')
 const URL = process.env.MONGODB_URL;
-console.log(URL)
 app.use(express.json())
 app.use(cors())
 app.use(login)
