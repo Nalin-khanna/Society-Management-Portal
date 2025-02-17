@@ -5,20 +5,23 @@ import { useEffect } from 'react'
 
 const AdminDashboard = () => {
     const user = useStore((state) => state.user)
+    const verify = useStore((state)=>state.verify)
     const navigate = useNavigate();
     useEffect(()=>{
-        if (user==null) {
-            navigate('/')
-            return
+        const checkAuth = async () => {
+            await verify()
+            if (user === null) {
+                navigate('/')
+                return
+            }
+            
+            if (user?.role !== 'admin') {
+                navigate('/')
+                return
+            }
         }
-        
-        // Optional: Check for admin role if you have role-based auth
-        if (user.role !== 'admin') {
-            navigate('/')
-            return
-        }
-
-    },[user,navigate])
+        checkAuth()
+    }, [ verify, navigate])
     // Don't render anything while redirecting
     if (user==null) {
         return null
