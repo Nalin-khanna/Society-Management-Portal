@@ -6,8 +6,9 @@ import { Route, Routes } from 'react-router-dom'
 import Login from './pages/Login'
 import AdminDashboard from './pages/AdminDashboard'
 import UserDashboard from './pages/UserDashboard'
+
 function App() {
-  const [count, setCount] = useState(0)
+ 
 
   return (
     <>

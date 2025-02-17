@@ -11,14 +11,17 @@ import { Label } from "@/components/ui/label"
 import { Button } from '@/components/ui/button'
 import { z } from 'zod'
 import axios from 'axios'
-import { Navigate, NavLink, useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
+import { useStore } from '../store/Store'
 
 
 const Login = () => {
     const navigate = useNavigate();
+    
     const [username , setUsername] = useState("")
     const [email , setEmail] = useState("")
     const [password , setPassword] = useState("")
+    const login = useStore((state)=>state.login)
     const usernameSchema = z.string().min(3, "Username must be at least 3 characters long.")
     const emailSchema = z.string().email("Invalid email format.")
     const pwSchema = z.string().min(5, "Password must be at least 5 characters long.")
@@ -36,7 +39,8 @@ const Login = () => {
              }
            )
            if(response.data.success){
-            localStorage.setItem("token",response.data.token)
+            localStorage.setItem("token",response.data.token);
+            login(response.data.user);
             if(response.data.user.role == "admin"){
               console.log("navigating to admin dashboard")
               navigate('/Admin-dashboard')
@@ -48,8 +52,19 @@ const Login = () => {
           }
           }
             catch(error){
-              console.log(error)
-              alert("wrong credentials");
+              if(error.response){
+                if (error.response.status == 401){
+                  alert("Invalid email or password. Please try again.");
+                }else {
+                  alert("An unexpected error occurred.");
+                }
+              }
+              else if(error.request){
+                alert("Network error. Please check your connection.");
+              }
+              else{
+                alert("An error occurred. Please try again.");
+              }
             }
             
             console.log(`username: ${name.data} , password: ${pw.data} email: ${mail.data}`)
