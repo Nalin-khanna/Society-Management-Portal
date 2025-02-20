@@ -4,7 +4,11 @@ import {persist} from 'zustand/middleware'
 export const useStore = create(persist((set)=>({
     user:null ,
     login : (curruser)=> set({user:curruser}),
-    logout: ()=> set({user:null}),
+    logout: ()=> {
+        console.log('logged out')
+        localStorage.removeItem('token')
+        set({user:null})
+    },
     verify: async ()=>{
         try{
         const token = localStorage.getItem('token') 
