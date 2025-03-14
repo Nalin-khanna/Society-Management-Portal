@@ -15,7 +15,7 @@ const token_authorization = async(req,res,next)=>{
         if(user==null){
             return res.status(404).json({success:false , error:"Invalid token"})
         }
-        req.user = user
+        res.user = user
         next()
     }catch(err){
         console.log(err)

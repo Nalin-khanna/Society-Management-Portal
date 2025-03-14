@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Userpanel from '@/components/ui/Userpanel'
-
+import {useNavigate} from 'react-router-dom'
 import {
   Card,
   CardContent,
@@ -10,7 +10,22 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Users } from 'lucide-react'
+import { useStore } from '../store/Store'
 const UserDashboard = () => {
+  const user = useStore((state)=> state.user)
+  const verify = useStore((state)=> state.verify)
+  const navigate = useNavigate()
+  useEffect(()=>{
+    const checkAuth = async () => {
+        await verify()
+        if (user === null) {
+            navigate('/')
+            return
+        }
+        
+    }
+    checkAuth()
+}, [ verify, navigate])
   return (
     <> 
         <div className='flex h-screen bg-gray-150'>

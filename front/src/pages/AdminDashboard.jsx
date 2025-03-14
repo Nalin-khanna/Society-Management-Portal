@@ -18,9 +18,6 @@ const AdminDashboard = () => {
     const verify = useStore((state)=>state.verify)
     const navigate = useNavigate();
     useEffect(()=>{
-
-    })
-    useEffect(()=>{
         const checkAuth = async () => {
             await verify()
             if (user === null) {

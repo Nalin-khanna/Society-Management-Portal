@@ -26,7 +26,7 @@ const login = async (req,res)=>{
 }
 
 const verify =(req,res)=>{
-    return res.status(200).json({success:true , user:req.user})
+    return res.status(200).json({success:true , user:res.user})
 }
 
 module.exports = {login , verify}

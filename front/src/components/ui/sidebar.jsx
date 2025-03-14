@@ -87,14 +87,7 @@ export const Sidebar = () => {
                 {expanded && (
                   <span className="ml-4 text-sm font-medium">{item.label}</span>
                 )}
-              </button>
-             
-                
-                
-                
-              
-               
-              
+              </button> 
             );
           })}
         </nav>

@@ -14,11 +14,6 @@ const Users = () => {
                 navigate('/')
                 return
             }
-            
-            if (user?.role !== 'admin') {
-                navigate('/')
-                return
-            }
         }
         checkAuth()
     }, [ verify, navigate])
