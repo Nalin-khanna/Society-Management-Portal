@@ -5,9 +5,11 @@ const {UserSchema,User} = require('../models/UserSchema')
 const router = express.Router();
 const {login , verify} = require('../controllers/AuthController');
 const token_authorization = require('../middlewares/AuthMiddleware');
+const worksheetSearch = require('../middlewares/worksheetSearch')
 const upload = require('../middlewares/multerMiddleware');
 const uploadOnCloudinary = require('../controllers/Cloudinary');
 router.post('/login',login)
+router.get('/searchworksheet',worksheetSearch)
 router.get('/verify',token_authorization,verify)
 router.post('/submitfile',upload.single('file'),async (req , res)=>{
     try{    
