@@ -38,8 +38,6 @@ const Userpanel = () => {
           >
             <Menu size={24} />
           </button>
-    
-    
           <div 
             className={`
               fixed top-0 left-0 h-screen 
@@ -70,7 +68,7 @@ const Userpanel = () => {
                    key={item.id}
                    onClick={()=> {
                     setActivePage(item.id)
-                    navigate(item.id)
+                    navigate(`/User-dashboard/${item.id}`)
                    }
                    }
     

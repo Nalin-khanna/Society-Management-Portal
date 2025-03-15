@@ -30,26 +30,10 @@ const Worksheet_admin = () => {
     }
     return (
         <>
-            <div className='flex h-screen bg-gray-150'>
+            <div className='flex h-screen bg-gray-180'>
                 <Sidebar />
-                <div className="flex-1 p-8">
-                    <div className="flex justify-between items-center mb-8">
-                        <h1 className="text-2xl font-bold">File Management</h1>
-                        <div className="flex gap-4">
-                            <div className="relative">
-                                <label className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 cursor-pointer">
-                                    <Upload size={20} />
-                                    Upload Files
-                                    <input
-                                        type="file"
-                                        multiple
-                                        accept=".pdf,.xlsx,.xls"
-                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                    />
-                                </label>
-                            </div>
-                        </div>
-                    </div>
+                <div className='flex flex-1 '>
+
                 </div>
             </div>
         </>

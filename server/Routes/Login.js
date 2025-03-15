@@ -1,4 +1,7 @@
 const express = require('express')
+const fs = require('fs')
+const mongoose = require('mongoose');
+const {UserSchema,User} = require('../models/UserSchema')
 const router = express.Router();
 const {login , verify} = require('../controllers/AuthController');
 const token_authorization = require('../middlewares/AuthMiddleware');
@@ -7,13 +10,24 @@ const uploadOnCloudinary = require('../controllers/Cloudinary');
 router.post('/login',login)
 router.get('/verify',token_authorization,verify)
 router.post('/submitfile',upload.single('file'),async (req , res)=>{
-    try{
+    try{    
         const localfilepath = req.file.path
         const result = await uploadOnCloudinary(localfilepath);
+        const userId = req.body.user;
+        
+        if(userId == null ){
+            return res.status(400).json({success:false , message:"no user_id"})
+        }
+        if(userId){
+            await User.updateOne({ _id: userId }, { $set: { worksheet: result.url } });
+        }
+        
         if (result) {
             // Successfully uploaded to cloudinary
-            fs.unlinkSync(localFilePath); // Clean up the local file
+            console.log(result)
+            fs.unlinkSync(localfilepath); // Clean up the local file
             res.json({ success: true, url: result.url });
+
         } else {
             res.status(400).json({ success: false, message: "Cloudinary upload failed" });
         }

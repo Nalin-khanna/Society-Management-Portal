@@ -12,10 +12,8 @@ const uploadOnCloudinary = async (localfilepath)=>{
     try{
         if(!localfilepath) return null;
         const response = await v2.uploader.upload(localfilepath,{
-            
             resource_type:'auto'
         })
-        console.log("file has been uploaded" , response)
         return response
     }
     catch{
@@ -23,5 +21,4 @@ const uploadOnCloudinary = async (localfilepath)=>{
         return null
     }
 }
-
 module.exports = uploadOnCloudinary

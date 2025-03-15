@@ -4,6 +4,7 @@ const UserSchema = mongoose.Schema({
     email : {type:String, required:true} , 
     Password : {type:String, required:true} ,
     role : {type:String},
+    worksheet : {type:String}
 })
 const User = mongoose.model('User',UserSchema);
 module.exports = {UserSchema,User} ;

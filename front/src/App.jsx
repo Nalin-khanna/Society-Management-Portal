@@ -25,6 +25,9 @@ function App() {
         <Route path = '/Admin-dashboard/Department' element = {<Department_admin />} />
         <Route path = '/Admin-dashboard/Attendance' element = {<Attendance_admin />} />
         <Route path = '/User-dashboard/Worksheet' element = {<Worksheet_user />} />
+        <Route path = '/User-dashboard/Users' element = {<Worksheet_user />} />
+        <Route path = '/User-dashboard/Department' element = {<Worksheet_user />} />
+        <Route path = '/User-dashboard/Attendance' element = {<Worksheet_user />} />
       </Routes>
     </>
   )

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Home,
   Users,
-  Settings,
   BarChart2,
   Boxes,
   Calendar,
@@ -74,7 +73,6 @@ export const Sidebar = () => {
                 navigate(`/Admin-dashboard/${item.id}`)
                }
                }
-
                className={`
                 flex items-center w-full p-3 rounded-lg
                 transition-colors duration-200

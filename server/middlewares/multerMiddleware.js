@@ -4,7 +4,7 @@ const storage = multer.diskStorage({
       cb(null, "/Users/nalinkhanna/Society-management-portal/server/Public/temp")
     },
     filename: function (req, file, cb) {
-      cb(null, file.originalname)
+      cb(null, Date.now() + '-' + file.originalname)
     }
   })
   
