@@ -4,7 +4,7 @@ const app = express()
 const cors = require('cors');
 const connect = require('./db/ connection');
 const router = require('./Routes/Login')
-const URL = process.env.MONGODB_URL;
+const addAttnd = require('./db/attendanceSeed')
 app.use(express.json())
 app.use(cors({
     origin: 'http://localhost:5173', // Allow only this origin

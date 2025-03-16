@@ -3,6 +3,7 @@ import Sidebar from '@/components/ui/sidebar'
 import { useStore } from '../store/Store'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import axios from 'axios';
 import {
     Card,
     CardContent,
@@ -37,19 +38,26 @@ const Attendance_admin = () => {
         
     }
     const handleChange = (e) =>{
+        e.preventDefault();
         setDate(e.target.value)
-        console.log(date)
     }
-    const handleSubmit = ()=>{
-        console.log("button clicked")
+    const handleSubmit = async ()=>{
+        try{
+            const response = await axios.get('http://localhost:3000/Attendance',date)
+        }
+        catch(error){
+            console.log(error);
+        }
+        
     }
     return (
         <>
          <div className='flex h-screen bg-gray-150'>
            <Sidebar />
-           <Card className="h-60 ml-180 mt-50 ">
+           <div className='flex flex-1 justify-center items-center'>
+           <Card className="h-60 ">
             <CardHeader>
-                Get attendance for date 
+                Mark attendance for date 
             </CardHeader>
             <CardContent>
                 <div className='flex-col'>
@@ -66,6 +74,7 @@ const Attendance_admin = () => {
                
             </CardContent>
            </Card>
+           </div>
          </div>
         </>
       )
