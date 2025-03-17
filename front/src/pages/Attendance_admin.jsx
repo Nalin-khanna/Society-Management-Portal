@@ -1,83 +1,110 @@
-import React, { useState } from 'react'
-import Sidebar from '@/components/ui/sidebar'
-import { useStore } from '../store/Store'
-import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
-import axios from 'axios';
+import React, { useState } from "react";
+import Sidebar from "@/components/ui/sidebar";
+import { useStore } from "../store/Store";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card"
-import { Button , buttonVariants } from '@/components/ui/button'
+  Card,
+  CardContent,
+  CardHeader,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
 const Attendance_admin = () => {
-    const user = useStore((state) => state.user)
-    const verify = useStore((state)=>state.verify)
-    const [date, setDate] = useState()
-    const navigate = useNavigate()
-    useEffect(()=>{
-        const checkAuth = async () => {
-            await verify()
-            if (user === null) {
-                navigate('/')
-                return
-            }
-            
-            if (user?.role !== 'admin') {
-                navigate('/')
-                return
-            }
-        }
-        checkAuth()
-    }, [ verify, navigate])
-    if (user==null) {
-        return null
-        
+  const user = useStore((state) => state.user);
+  const verify = useStore((state) => state.verify);
+  const [date, setDate] = useState();
+  const [attendancedata, setAttendancedata] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      await verify();
+      if (!user || user?.role !== "admin") {
+        navigate("/");
+        return;
+      }
+    };
+    checkAuth();
+  }, [verify, navigate]);
+
+  if (!user) {
+    return null;
+  }
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setDate(e.target.value);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/Attendance", {
+        params: { date: date },
+      });
+      setAttendancedata(response.data);
+    } catch (error) {
+      console.log(error);
     }
-    const handleChange = (e) =>{
-        e.preventDefault();
-        setDate(e.target.value)
-    }
-    const handleSubmit = async ()=>{
-        try{
-            const response = await axios.get('http://localhost:3000/Attendance',date)
-        }
-        catch(error){
-            console.log(error);
-        }
-        
-    }
-    return (
-        <>
-         <div className='flex h-screen bg-gray-150'>
-           <Sidebar />
-           <div className='flex flex-1 justify-center items-center'>
-           <Card className="h-60 ">
-            <CardHeader>
-                Mark attendance for date 
+  };
+
+  return (
+    <>
+      <div className="flex h-screen bg-gray-100">
+        <Sidebar />
+        <div className="flex flex-1 flex-col items-center justify-center p-6">
+          <Card className="w-full max-w-md shadow-lg">
+            <CardHeader className="text-center text-xl font-semibold">
+              Mark Attendance
             </CardHeader>
             <CardContent>
-                <div className='flex-col'>
-                    <div className='p-5'>
-                    <input type='date' onChange={handleChange}>
-                    </input>
-                    </div>
-                    <div className='p-4 ml-10'>
-                      <Button  size={"lg"} onClick = {handleSubmit}>
-                          Enter 
-                      </Button>
-                    </div>
-                </div>
-               
+              <div className="flex flex-col gap-4">
+                <input
+                  type="date"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={handleChange}
+                />
+                <Button
+                  size="lg"
+                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  onClick={handleSubmit}
+                >
+                  Fetch Attendance
+                </Button>
+              </div>
             </CardContent>
-           </Card>
-           </div>
-         </div>
-        </>
-      )
-}
+          </Card>
 
-export default Attendance_admin
+          {attendancedata.length > 0 && (
+            <Card className="w-full max-w-md mt-6 shadow-lg">
+              <CardHeader className="text-center text-lg font-semibold">
+                Attendance List
+              </CardHeader>
+              <CardContent>
+                <ul className="divide-y divide-gray-300">
+                  {attendancedata.map((user) => (
+                    <li key={user._id} className="py-3 flex justify-between">
+                      <span className="font-medium">{user.name}</span>
+                      <span
+                        className={`px-3 py-1 text-white rounded-lg ${
+                          user.status === "Present"
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        }`}
+                      >
+                        {user.status}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Attendance_admin;
