@@ -9,7 +9,9 @@ const worksheetSearch = require('../middlewares/worksheetSearch')
 const markAttendanceMiddleware = require('../middlewares/markAttendanceMiddleware')
 const attendanceMiddleware = require('../middlewares/AttendanceMiddleware')
 const upload = require('../middlewares/multerMiddleware');
+const FetchAllUsers = require('../middlewares/FetchAllUsersMiddleware')
 const uploadOnCloudinary = require('../controllers/Cloudinary');
+router.get('/fetch-all-users',FetchAllUsers)
 router.post('/login',login)
 router.get('/searchworksheet',worksheetSearch)
 router.get('/Attendance',attendanceMiddleware)
