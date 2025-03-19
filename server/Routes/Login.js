@@ -6,12 +6,14 @@ const router = express.Router();
 const {login , verify} = require('../controllers/AuthController');
 const token_authorization = require('../middlewares/AuthMiddleware');
 const worksheetSearch = require('../middlewares/worksheetSearch')
+const markAttendanceMiddleware = require('../middlewares/markAttendanceMiddleware')
 const attendanceMiddleware = require('../middlewares/AttendanceMiddleware')
 const upload = require('../middlewares/multerMiddleware');
 const uploadOnCloudinary = require('../controllers/Cloudinary');
 router.post('/login',login)
 router.get('/searchworksheet',worksheetSearch)
 router.get('/Attendance',attendanceMiddleware)
+router.post('/mark-attendance',markAttendanceMiddleware)
 router.get('/verify',token_authorization,verify)
 router.post('/submitfile',upload.single('file'),async (req , res)=>{
     try{    

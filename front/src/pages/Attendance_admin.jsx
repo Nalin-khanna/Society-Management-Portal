@@ -16,6 +16,7 @@ const Attendance_admin = () => {
   const verify = useStore((state) => state.verify);
   const [date, setDate] = useState();
   const [attendancedata, setAttendancedata] = useState([]);
+  const[mark , setMark] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,12 +49,26 @@ const Attendance_admin = () => {
       console.log(error);
     }
   };
+  const markAttendance = async (userid , status) =>{
+    try {
+        await axios.post("http://localhost:3000/mark-attendance", {
+          userid,
+          status,
+          date,
+        },{
+          headers: {"Content-Type": "application/json"}
+        });
+        await handleSubmit(); 
+      } catch (error) {
+        console.error("Error marking attendance:", error);
+      }
+  }
 
   return (
     <>
       <div className="flex h-screen bg-gray-100">
         <Sidebar />
-        <div className="flex flex-1 flex-col items-center justify-center p-6">
+        <div className="w-80% flex flex-1 flex-col items-center justify-center p-6">
           <Card className="w-full max-w-md shadow-lg">
             <CardHeader className="text-center text-xl font-semibold">
               Mark Attendance
@@ -77,7 +92,7 @@ const Attendance_admin = () => {
           </Card>
 
           {attendancedata.length > 0 && (
-            <Card className="w-full max-w-md mt-6 shadow-lg">
+            <Card className="w-full max-w-3xl mt-6 shadow-lg">
               <CardHeader className="text-center text-lg font-semibold">
                 Attendance List
               </CardHeader>
@@ -95,6 +110,12 @@ const Attendance_admin = () => {
                       >
                         {user.status}
                       </span>
+                      <button className="bg-green-600 hover:bg-green-700 rounded-lg px-2" onClick={()=>markAttendance(user._id , "Present")}>
+                       Mark Present
+                      </button>
+                      <button className="bg-red-600 hover:bg-red-700 rounded-lg px-2" onClick={()=> markAttendance(user._id , "Absent")}>
+                       Mark Absent
+                      </button>
                     </li>
                   ))}
                 </ul>
