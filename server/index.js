@@ -5,6 +5,7 @@ const cors = require('cors');
 const connect = require('./db/ connection');
 const router = require('./Routes/Login')
 const addAttnd = require('./db/attendanceSeed')
+const addUser = require('./db/userSeed')
 app.use(express.json())
 app.use(cors({
     origin: 'http://localhost:5173', // Allow only this origin
@@ -12,7 +13,7 @@ app.use(cors({
     credentials: true // Enable cookies and authentication headers
 }));
 app.use(router)
-connect(process.env.MONGODB_URL)
+connect(process.env.MONGODB_URL).then()
 app.listen(process.env.PORT, ()=>{
     console.log(`listening to port ${process.env.PORT}`) ; 
 })

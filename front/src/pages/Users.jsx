@@ -5,12 +5,15 @@ import axios from "axios";
 import { Sidebar } from "../components/ui/sidebar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button"; // Import button
 
 const Users = () => {
   const user = useStore((state) => state.user);
   const verify = useStore((state) => state.verify);
   const navigate = useNavigate();
   const [allusers, setAllusers] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -25,14 +28,15 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/fetch-all-users");
+        const response = await axios.get(`http://localhost:3000/fetch-all-users?page=${page}&limit=10`);
         setAllusers(response.data.AllUsers);
+        setTotalPages(response.data.totalPages);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
     fetchUsers();
-  }, []);
+  }, [page]); // Refetch users when page changes
 
   if (!user) return null;
 
@@ -65,6 +69,23 @@ const Users = () => {
                 ))}
               </ul>
             )}
+
+            {/* Pagination Controls */}
+            <div className="flex justify-center gap-4 mt-4">
+              <Button 
+                onClick={() => setPage((prev) => Math.max(prev - 1, 1))} 
+                disabled={page === 1}
+              >
+                Previous
+              </Button>
+              <span className="text-lg font-medium">{page} / {totalPages}</span>
+              <Button 
+                onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))} 
+                disabled={page === totalPages}
+              >
+                Next
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
